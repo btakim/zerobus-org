@@ -1,1 +1,219 @@
-Hello ZeroBus.org
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZeroBus — Researching Zero-Emission Intercity Coaches</title>
+  <meta name="description" content="ZeroBus is a noncommercial research initiative exploring data-driven, zero-emission intercity coach operations in Europe: demand, charging, TCO, and pilot routes." />
+  <meta property="og:title" content="ZeroBus — Researching Zero-Emission Intercity Coaches" />
+  <meta property="og:description" content="Shifting demand to sustainable travel. Industry + operator interviews. EU climate goals. Pilot routes & charging strategies." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.zerobus.org" />
+  <meta name="theme-color" content="#10b981" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0c10; --card:#11131a; --muted:#a6b3c2; --text:#e8f1f8; --accent:#10b981; --accent2:#0ea5e9;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; background:linear-gradient(180deg,#0b0c10 0%,#0b0c10 40%,#0c1118 100%); color:var(--text)}
+    a{color:var(--accent2); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+    header{position:sticky; top:0; backdrop-filter:saturate(180%) blur(10px); background:rgba(11,12,16,.7); border-bottom:1px solid #1f2430; z-index:10}
+    header .wrap{display:flex; align-items:center; justify-content:space-between; height:72px}
+    .brand{font-weight:800; letter-spacing:.02em}
+    nav a{margin-left:18px; color:#cfe7ff}
+    .btn{display:inline-block; padding:12px 18px; border-radius:12px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#081018; font-weight:700}
+    .btn:hover{opacity:.95}
+    .hero{padding:96px 0 24px; text-align:center}
+    .kicker{color:var(--accent); letter-spacing:.14em; font-weight:700}
+    h1{font-size:46px; line-height:1.05; margin:.4em 0}
+    .lead{max-width:820px; margin:0 auto; color:#c9d6e2; font-size:20px}
+    .section{padding:56px 0}
+    h2{font-size:28px; margin:0 0 14px}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px}
+    .card{background:var(--card); border:1px solid #1f2430; border-radius:18px; padding:22px}
+    .muted{color:var(--muted)}
+    ul{margin:0; padding-left:18px}
+    li{margin:6px 0}
+    .footer{padding:28px 0; border-top:1px solid #1f2430; color:#aab7c3; font-size:14px}
+    .legal a{margin-right:16px}
+    dialog{border:none; border-radius:14px; padding:0; max-width:820px; width:92%; background:#0d1117; color:#dbe9ff}
+    dialog::backdrop{background:rgba(0,0,0,.55)}
+    .modal-head{display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid #1f2430}
+    .modal-body{padding:18px}
+    .xbtn{background:#17202b; color:#cfe7ff; border:none; padding:8px 12px; border-radius:10px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container wrap">
+      <div class="brand">ZeroBus</div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#context">Context</a>
+        <a href="#questions">Questions</a>
+        <a href="#contact" class="btn">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="kicker">NON-COMMERCIAL RESEARCH INITIATIVE</div>
+      <h1>Zero-emission intercity coach research for Europe</h1>
+      <p class="lead">ZeroBus exists to accelerate the shift from diesel to truly zero-emission intercity travel. We compile operator insights, model routes and charging, and publish practical findings that help the sector run reliable, affordable electric coach services.</p>
+    </section>
+
+    <section id="about" class="section container">
+      <div class="grid">
+        <div class="card">
+          <h2>What ZeroBus is</h2>
+          <p class="muted">ZeroBus is an independent, noncommercial research organization. We engage operators, OEMs, charging providers, and public authorities to test where electric coaches can meet headways, comfort, and cost targets — today and over the next few years.</p>
+        </div>
+        <div class="card">
+          <h2>Why ZeroBus exists</h2>
+          <ul class="muted">
+            <li><strong>Shifting demand:</strong> A climate-aware generation already prefers sustainable options when the experience and price match. Intercity coaches can capture rail/air spillover if they go zero-emission without compromising convenience.</li>
+            <li><strong>Policy momentum:</strong> The EU’s climate framework (e.g., Fit-for-55 / 2030 targets) pushes deep emissions cuts across transport. Data and demos help convert targets into workable operations on real corridors.</li>
+            <li><strong>Product wave:</strong> Major OEMs are rolling out high-energy, long-range electric coaches in Europe over the next cycles (e.g., Daimler and MAN roadmaps). Planning now positions operators to pilot early and scale with the hardware.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="context" class="section container">
+      <div class="grid">
+        <div class="card">
+          <h2>Industry context</h2>
+          <ul class="muted">
+            <li><strong>Operations:</strong> Energy planning must account for gradients, HVAC, dwell times, driver changes, and seasonal loads.</li>
+            <li><strong>Charging:</strong> Depot CCS vs. en-route MCS; grid capacity, peak management, and tariff structures are decisive.</li>
+            <li><strong>Economics:</strong> TCO hinges on utilization, leasing/financing, energy prices, maintenance, and incentives.</li>
+            <li><strong>Customer experience:</strong> Quiet rides, Wi-Fi, and predictable schedules can win modal share if ticket prices remain competitive.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>What we publish</h2>
+          <ul class="muted">
+            <li>Route and charging scenarios (200–500 km corridors).</li>
+            <li>Open summaries of interviews with operators and suppliers.</li>
+            <li>Transparent assumptions and sensitivity analyses.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="questions" class="section container">
+      <h2>Operator & supplier questions</h2>
+      <p class="muted">These are the core questions we’re asking in our outreach. If you can share experience or data, we’d love to talk.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>1) Current operations</h3>
+          <ul class="muted">
+            <li>What are your busiest intercity corridors (distance, headways, load factors)?</li>
+            <li>Typical dwell times, layovers, and driver changes on these routes?</li>
+            <li>Seasonal peaks and reliability constraints we should account for?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>2) Fleet & procurement</h3>
+          <ul class="muted">
+            <li>Have you trialed or planned electric coaches yet? Which models or specs are you considering?</li>
+            <li>Leasing vs. buying preferences; contract lengths; residual value concerns?</li>
+            <li>What range/energy targets feel viable for your duty cycles?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>3) Charging & infrastructure</h3>
+          <ul class="muted">
+            <li>Depot capacity today and grid upgrade timelines?</li>
+            <li>Appetite for en-route charging (MCS) vs. depot-only strategies?</li>
+            <li>Site constraints (space, permitting) and tariff structures you face?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>4) Economics & incentives</h3>
+          <ul class="muted">
+            <li>How do you evaluate TCO vs. diesel on target corridors?</li>
+            <li>Which national/EU incentives materially change the business case?</li>
+            <li>What utilization/availability thresholds must an e-coach meet to be adopted?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>5) Partnerships & data</h3>
+          <ul class="muted">
+            <li>Can we collaborate on anonymized data for modeling (ridership, timings, energy)?</li>
+            <li>What would a low-risk pilot look like (fleet size, duration, KPIs)?</li>
+            <li>Which stakeholders (DSOs, municipalities, hubs) should be at the table?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>6) Feedback for ZeroBus</h3>
+          <ul class="muted">
+            <li>What research would be most useful for your decision-making?</li>
+            <li>Which assumptions should we stress-test first?</li>
+            <li>How would you like results shared (briefs, workshops, dashboards)?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section container">
+      <div class="grid">
+        <div class="card">
+          <h2>Contact ZeroBus</h2>
+          <p class="muted">Reach out to us directly: <a href="mailto:hello@zerobus.org">hello@zerobus.org</a></p>
+        </div>
+        <div class="card">
+          <h2>Legal</h2>
+          <p class="muted">This site is a research project; no commercial services are offered.</p>
+          <div class="legal">
+            <button class="xbtn" onclick="document.getElementById('impressum').showModal()">Impressum</button>
+            <button class="xbtn" onclick="document.getElementById('privacy').showModal()">Privacy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <div>© <span id="y"></span> ZeroBus (research initiative). All rights reserved.</div>
+  </footer>
+
+  <!-- Impressum modal -->
+  <dialog id="impressum">
+    <div class="modal-head">
+      <strong>Impressum (Legal Notice)</strong>
+      <button class="xbtn" onclick="this.closest('dialog').close()">Close</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Publisher (Diensteanbieter):</strong><br/>Your Full Name<br/>Street Address<br/>Postal Code City, Country<br/>Email: hello@zerobus.org<br/>Phone (optional)</p>
+      <p>If/when you incorporate: add company name, legal form, registration court/number, VAT ID.</p>
+      <p>This is a non-commercial research website. No ticket sales or service contracts are offered via this site.</p>
+    </div>
+  </dialog>
+
+  <!-- Privacy modal -->
+  <dialog id="privacy">
+    <div class="modal-head">
+      <strong>Privacy Policy (GDPR)</strong>
+      <button class="xbtn" onclick="this.closest('dialog').close()">Close</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Controller:</strong> Your Full Name, contact above.</p>
+      <p><strong>Purpose & Legal Basis:</strong> Handling inquiries via email (Art. 6(1)(f) GDPR legitimate interest; if negotiation of a contract begins, Art. 6(1)(b)).</p>
+      <p><strong>Data:</strong> Name, email, organization, message content. Kept only as long as necessary to respond; then archived or deleted.</p>
+      <p><strong>Processors:</strong> Hosting by GitHub Pages (GitHub, Inc.). Data may transfer outside the EU with appropriate safeguards.</p>
+      <p><strong>Rights:</strong> Access, rectification, erasure, restriction, objection. Contact us to exercise these rights.</p>
+    </div>
+  </dialog>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
