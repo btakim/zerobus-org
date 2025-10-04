@@ -61,6 +61,8 @@
     h2{font-size:28px; margin:0 0 10px}
     h3{margin:0 0 8px}
     .muted{color:var(--muted)}
+    /* Ensure section content sits above ornaments within sections */
+    section > .container{position:relative; z-index:1}
     /* Section next chevron */
     .section-next{position:absolute; left:50%; bottom:10px; transform:translateX(-50%); display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; text-decoration:none; color:inherit; opacity:.6}
     .section-next:hover{opacity:1}
@@ -70,9 +72,21 @@
     /* Cards */
     .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px}
     .card{background:var(--bg); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
-    .card:hover{transform:translateY(-2px); transition:transform .25s ease}
+    /* Perimeter glow (only edges) + slight scale on hover */
+    .card{position:relative; transition:transform .22s ease, box-shadow .22s ease}
+    .card:hover{transform:scale(1.02); box-shadow:
+      0 0 0 2px rgba(16,185,129,.55),
+      0 0 22px 6px rgba(14,165,233,.35),
+      0 10px 24px rgba(2,6,23,.10)}
+    .card:hover h2, .card:hover h3, .card:hover p, .card:hover li, .card:hover span.pill{transform:scale(1.015); transform-origin:center; transition:transform .22s ease}
+
+    /* Removed scroll ornaments */
     ul{margin:0; padding-left:18px}
     li{margin:6px 0}
+
+    /* About bus ornament */
+    .about-bus{position:relative; display:flex; justify-content:center; pointer-events:none; margin-top:20px}
+    .about-bus img{width:min(900px,95%); height:auto; transform:translateX(30vw); filter:drop-shadow(0 6px 14px rgba(2,6,23,.18))}
 
     /* Footer */
     footer{padding:28px 0; border-top:1px solid var(--line); color:var(--muted); font-size:14px; background:var(--bg)}
@@ -118,6 +132,7 @@
     </div>
   </header>
 
+
   <!-- Hero -->
   <section class="hero">
     <div class="container">
@@ -157,6 +172,9 @@
         </ul>
       </div>
     </div>
+    </div>
+    <div class="about-bus" aria-hidden="true">
+      <img src="assets/ebus.png" alt=""/>
     </div>
     <a class="section-next" href="#whynow" aria-label="Next section">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -368,6 +386,8 @@
     document.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
 
+    // Removed scroll ornaments logic
+  
     // Smooth anchor scrolling
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click', (e)=>{
@@ -378,6 +398,23 @@
         }
       });
     });
+
+    // About bus horizontal scroll progress
+    const aboutSection = document.querySelector('#about')?.nextElementSibling;
+    const aboutBus = document.querySelector('.about-bus img');
+    const updateAboutBus = ()=>{
+      if(!aboutSection || !aboutBus) return;
+      const r = aboutSection.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Progress from 0 (section top well below view) to 1 (near end of section)
+      const start = vh;              // when section just enters from below
+      const end = -r.height;         // when section has fully scrolled past top
+      const t = Math.max(0, Math.min(1, (start - r.top) / (start - end)));
+      const x = (1 - t) * 15 + 15;        // from 30vw to 0vw
+      aboutBus.style.transform = `translateX(${x}vw)`;
+    };
+    updateAboutBus();
+    window.addEventListener('scroll', updateAboutBus, {passive:true});
   </script>
 </body>
 </html>
