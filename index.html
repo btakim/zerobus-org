@@ -19,7 +19,7 @@
       :root{ --bg:#0b1020; --bg-alt:#0e1528; --ink:#e6eef7; --muted:#94a3b8; --line:#1f2a44; --shadow:0 10px 28px rgba(0,0,0,.35); }
     }
     *,*::before,*::after{box-sizing:border-box}
-    html,body{margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif}
+    html,body{margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; overflow-x:hidden}
     a{color:var(--brand); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:1120px; margin:0 auto; padding:0 20px}
@@ -49,16 +49,24 @@
     .menu-toggle{display:none; appearance:none; border:1px solid var(--line); background:var(--bg); color:inherit; padding:10px 12px; border-radius:10px}
     .menu-toggle:focus{outline:none; box-shadow:var(--ring)}
     .menu-toggle svg{display:block; width:22px; height:22px}
-    .mobile-menu{display:none; position:fixed; top:72px; left:0; right:0; background:var(--bg); border-bottom:1px solid var(--line); box-shadow:0 12px 20px rgba(2,6,23,.08); z-index:60}
-    .mobile-menu .container{padding:12px 20px}
-    .mobile-menu nav{display:flex; flex-direction:column; gap:4px}
-    .mobile-menu nav a{margin:0; padding:10px 8px; border-radius:8px}
+    .menu-toggle .bar{transition:transform .2s ease, opacity .2s ease; transform-origin:50% 50%; transform-box:fill-box}
+    .menu-toggle.open .bar1{transform:translateY(6px) rotate(45deg)}
+    .menu-toggle.open .bar2{opacity:0}
+    .menu-toggle.open .bar3{transform:translateY(-6px) rotate(-45deg)}
+    .mobile-menu{display:none; position:fixed; top:72px; left:0; right:0; background:transparent; z-index:1000; pointer-events:none}
+    .mobile-menu .container{padding:12px 20px; display:flex; justify-content:flex-end}
+    .mobile-menu nav{display:flex; flex-direction:column; gap:6px; width:min(92vw, 190px); background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:10px; box-shadow:var(--shadow); pointer-events:auto}
+    .mobile-menu nav a{margin:0; padding:10px 10px; border-radius:8px; text-align:right}
     .mobile-menu nav a.btn{margin-top:6px; text-align:center}
     .mobile-menu.open{display:block}
+
+    /* Body lock when mobile menu is open */
+    .no-scroll{overflow:hidden}
 
     /* Use a wider breakpoint so the menu hides earlier */
     @media (max-width: 920px){
       header .nav{height:64px}
+      header{overflow:visible}
       header > .nav > nav{display:none}
       .menu-toggle{display:inline-flex; align-items:center; justify-content:center}
       .brand img{height:24px}
@@ -106,7 +114,7 @@
     li{margin:6px 0}
 
     /* About bus ornament */
-    .about-bus{position:relative; display:flex; justify-content:center; pointer-events:none; margin-top:20px}
+    .about-bus{position:relative; display:flex; justify-content:center; pointer-events:none; margin-top:20px; overflow:hidden}
     .about-bus img{width:min(900px,95%); height:auto; transform:translateX(30vw); filter:drop-shadow(0 6px 14px rgba(2,6,23,.18))}
 
     /* Footer */
@@ -143,9 +151,9 @@
       </div>
       <button class="menu-toggle" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
+          <line class="bar bar1" x1="3" y1="6" x2="21" y2="6" />
+          <line class="bar bar2" x1="3" y1="12" x2="21" y2="12" />
+          <line class="bar bar3" x1="3" y1="18" x2="21" y2="18" />
         </svg>
       </button>
       <nav>
@@ -172,6 +180,7 @@
       </div>
     </div>
   </header>
+  
 
 
   <!-- Hero -->
@@ -406,21 +415,26 @@
 
     // IntersectionObserver reveal animations
     const revealEls = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-    },{threshold:.18});
-    revealEls.forEach(el=> io.observe(el));
+    if ('IntersectionObserver' in window){
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+      },{threshold:.18});
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      // Fallback: reveal immediately
+      revealEls.forEach(function(el){ el.classList.add('in'); });
+    }
 
     // Active nav highlight on scroll
-    const links = Array.from(document.querySelectorAll('header nav a')).filter(a=>a.getAttribute('href').startsWith('#'));
-    const secs = links.map(a=> document.querySelector(a.getAttribute('href')) || document.querySelector(a.getAttribute('href')+ ' .anchor'));
-    const onScroll=()=>{
-      const pos = window.scrollY + 100;
-      links.forEach((a,i)=>{
-        const sec = document.querySelector(a.getAttribute('href')) || document.querySelector(a.getAttribute('href')+ ' .anchor');
+    var links = Array.prototype.slice.call(document.querySelectorAll('header nav a')).filter(function(a){ return a.getAttribute('href').startsWith('#'); });
+    var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')) || document.querySelector(a.getAttribute('href')+ ' .anchor'); });
+    var onScroll = function(){
+      var pos = window.scrollY + 100;
+      links.forEach(function(a,i){
+        var sec = document.querySelector(a.getAttribute('href')) || document.querySelector(a.getAttribute('href')+ ' .anchor');
         if(!sec) return;
-        const top = sec.getBoundingClientRect().top + window.scrollY;
-        const next = secs[i+1]? (secs[i+1].getBoundingClientRect().top + window.scrollY) : Infinity;
+        var top = sec.getBoundingClientRect().top + window.scrollY;
+        var next = secs[i+1]? (secs[i+1].getBoundingClientRect().top + window.scrollY) : Infinity;
         a.classList.toggle('active', pos>=top && pos<next);
       });
     };
@@ -428,46 +442,92 @@
     onScroll();
 
     // Mobile menu toggle
-    const menuBtn = document.querySelector('.menu-toggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const toggleMenu = () => {
+    var menuBtn = document.querySelector('.menu-toggle');
+    var mobileMenu = document.getElementById('mobileMenu');
+    var outsideClickBound = false;
+    function setMenuState(open){
       if(!menuBtn || !mobileMenu) return;
-      const open = mobileMenu.classList.toggle('open');
-      if (open) mobileMenu.removeAttribute('hidden');
-      else mobileMenu.setAttribute('hidden','');
+      if (open){
+        mobileMenu.classList.add('open');
+        mobileMenu.removeAttribute('hidden');
+        document.body.classList.add('no-scroll');
+        if (!outsideClickBound){
+          document.addEventListener('click', onDocumentClick, true);
+          document.addEventListener('touchstart', onDocumentClick, true);
+          outsideClickBound = true;
+        }
+      } else {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('hidden','');
+        document.body.classList.remove('no-scroll');
+        if (outsideClickBound){
+          document.removeEventListener('click', onDocumentClick, true);
+          document.removeEventListener('touchstart', onDocumentClick, true);
+          outsideClickBound = false;
+        }
+      }
       menuBtn.setAttribute('aria-expanded', String(open));
-    };
-    menuBtn?.addEventListener('click', toggleMenu);
+      if (open){ menuBtn.classList.add('open'); }
+      else { menuBtn.classList.remove('open'); }
+    }
+    function toggleMenu(e){
+      if(e){ e.preventDefault(); e.stopPropagation(); }
+      var isOpen = mobileMenu && mobileMenu.classList.contains('open');
+      setMenuState(!isOpen);
+    }
+    // Click/Touch/Keyboard handlers for broader mobile support
+    if (menuBtn){
+      menuBtn.addEventListener('click', toggleMenu, {passive:false});
+      menuBtn.addEventListener('touchend', toggleMenu, {passive:false});
+      menuBtn.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ toggleMenu(e); }
+      });
+    }
+    // Close on overlay click or ESC
+    window.addEventListener('keydown', function(e){ if(e.key==='Escape') setMenuState(false); });
+    function onDocumentClick(e){
+      var t = e.target;
+      if (!t) return;
+      if (mobileMenu.contains(t) || menuBtn.contains(t)) return;
+      setMenuState(false);
+    }
     // Close menu on navigation click
-    mobileMenu?.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>{
-      if(mobileMenu.classList.contains('open')) toggleMenu();
-    }));
+    if (mobileMenu){
+      Array.prototype.slice.call(mobileMenu.querySelectorAll('a')).forEach(function(a){
+        a.addEventListener('click', function(){
+          if(mobileMenu.classList.contains('open')) setMenuState(false);
+        });
+      });
+    }
 
     // Smooth anchor scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const id = a.getAttribute('href');
-        if(id.length>1){
-          e.preventDefault();
-          document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+    Array.prototype.slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href');
+        if(id && id.length>1){
+          var target = document.querySelector(id);
+          if (target){
+            e.preventDefault();
+            target.scrollIntoView({behavior:'smooth', block:'start'});
+          }
         }
       });
     });
 
     // About bus horizontal scroll progress
-    const aboutSection = document.querySelector('#about')?.nextElementSibling;
-    const aboutBus = document.querySelector('.about-bus img');
-    const updateAboutBus = ()=>{
+    var aboutAnchor = document.querySelector('#about');
+    var aboutSection = aboutAnchor ? aboutAnchor.nextElementSibling : null;
+    var aboutBus = document.querySelector('.about-bus img');
+    function updateAboutBus(){
       if(!aboutSection || !aboutBus) return;
-      const r = aboutSection.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // Progress from 0 (section top well below view) to 1 (near end of section)
-      const start = vh;              // when section just enters from below
-      const end = -r.height;         // when section has fully scrolled past top
-      const t = Math.max(0, Math.min(1, (start - r.top) / (start - end)));
-      const x = (1 - t) * 15 + 15;        // from 30vw to 0vw
-      aboutBus.style.transform = `translateX(${x}vw)`;
-    };
+      var r = aboutSection.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var start = vh;
+      var end = -r.height;
+      var t = Math.max(0, Math.min(1, (start - r.top) / (start - end)));
+      var x = (1 - t) * 15 + 15;
+      aboutBus.style.transform = 'translateX(' + x + 'vw)';
+    }
     updateAboutBus();
     window.addEventListener('scroll', updateAboutBus, {passive:true});
   </script>
