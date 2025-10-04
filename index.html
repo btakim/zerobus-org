@@ -373,14 +373,14 @@
     <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
       <div>© <span id="year"></span> ZeroBus - Independent Mobility Concept</div>
       <div style="display:flex; gap:14px">
-        <a href="#" onclick="document.getElementById('impressum').showModal(); return false;">Impressum</a>
-        <a href="#" onclick="document.getElementById('privacy').showModal(); return false;">Privacy</a>
+        <a href="#" rel="nofollow" onclick="document.getElementById('impressum').showModal(); return false;">Impressum</a>
+        <a href="#" rel="nofollow" onclick="document.getElementById('privacy').showModal(); return false;">Privacy</a>
       </div>
     </div>
   </footer>
 
   <!-- Impressum modal -->
-  <dialog id="impressum">
+  <dialog id="impressum" data-nosnippet class="robots-nocontent">
     <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line)">
       <strong>Impressum / Legal Notice</strong>
       <button class="btn" style="padding:8px 12px" onclick="this.closest('dialog').close()">Close</button>
@@ -402,7 +402,7 @@
   </dialog>
 
   <!-- Privacy modal -->
-  <dialog id="privacy">
+  <dialog id="privacy" data-nosnippet class="robots-nocontent">
     <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line)">
       <strong>Privacy Policy (GDPR)</strong>
       <button class="btn" style="padding:8px 12px" onclick="this.closest('dialog').close()">Close</button>
