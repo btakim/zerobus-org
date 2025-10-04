@@ -45,6 +45,27 @@
     .btn-cta .caret svg{display:block; width:12px; height:12px; transition:transform .2s ease}
     .btn-cta:hover .caret svg{transform:translateY(2px)}
 
+    /* Mobile nav */
+    .menu-toggle{display:none; appearance:none; border:1px solid var(--line); background:var(--bg); color:inherit; padding:10px 12px; border-radius:10px}
+    .menu-toggle:focus{outline:none; box-shadow:var(--ring)}
+    .menu-toggle svg{display:block; width:22px; height:22px}
+    .mobile-menu{display:none; position:fixed; top:72px; left:0; right:0; background:var(--bg); border-bottom:1px solid var(--line); box-shadow:0 12px 20px rgba(2,6,23,.08); z-index:60}
+    .mobile-menu .container{padding:12px 20px}
+    .mobile-menu nav{display:flex; flex-direction:column; gap:4px}
+    .mobile-menu nav a{margin:0; padding:10px 8px; border-radius:8px}
+    .mobile-menu nav a.btn{margin-top:6px; text-align:center}
+    .mobile-menu.open{display:block}
+
+    /* Use a wider breakpoint so the menu hides earlier */
+    @media (max-width: 920px){
+      header .nav{height:64px}
+      header > .nav > nav{display:none}
+      .menu-toggle{display:inline-flex; align-items:center; justify-content:center}
+      .brand img{height:24px}
+      .brand-icon img{height:36px}
+      .mobile-menu{top:64px}
+    }
+
     /* Hero */
     .hero{position:relative; padding:96px 0 56px; text-align:center; background:radial-gradient(1200px 400px at 50% -20%, rgba(14,165,233,.18), transparent 60%), var(--bg)}
     .kicker{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:var(--bg-alt); border:1px solid var(--line); color:#0e7490; font-weight:700; letter-spacing:.14em}
@@ -120,6 +141,13 @@
           <img src="assets/ebus-icon-light.svg" alt="Electric bus icon" />
         </picture>
       </div>
+      <button class="menu-toggle" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
       <nav>
         <a href="#about">About</a>
         <a href="#whynow">Why&nbsp;Now?</a>
@@ -129,6 +157,19 @@
         <a href="#participate">Participate</a>
         <a class="btn" href="mailto:hello@zerobus.org">Email Us</a>
       </nav>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" hidden>
+      <div class="container">
+        <nav>
+          <a href="#about">About</a>
+          <a href="#whynow">Why&nbsp;Now?</a>
+          <a href="#problem">Problem</a>
+          <a href="#questions">Research</a>
+          <a href="#method">Method</a>
+          <a href="#participate">Participate</a>
+          <a class="btn" href="mailto:hello@zerobus.org">Email Us</a>
+        </nav>
+      </div>
     </div>
   </header>
 
@@ -386,8 +427,22 @@
     document.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
 
-    // Removed scroll ornaments logic
-  
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.menu-toggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const toggleMenu = () => {
+      if(!menuBtn || !mobileMenu) return;
+      const open = mobileMenu.classList.toggle('open');
+      if (open) mobileMenu.removeAttribute('hidden');
+      else mobileMenu.setAttribute('hidden','');
+      menuBtn.setAttribute('aria-expanded', String(open));
+    };
+    menuBtn?.addEventListener('click', toggleMenu);
+    // Close menu on navigation click
+    mobileMenu?.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>{
+      if(mobileMenu.classList.contains('open')) toggleMenu();
+    }));
+
     // Smooth anchor scrolling
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click', (e)=>{
