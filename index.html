@@ -20,7 +20,7 @@
     }
     *,*::before,*::after{box-sizing:border-box}
     html{overflow-x:hidden}
-    body{margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif}
+    body{margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; overflow-x:hidden}
     a{color:var(--brand); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:1120px; margin:0 auto; padding:0 20px}
@@ -98,6 +98,9 @@
     .section-next:hover{opacity:1}
     .section-next svg{display:block; width:22px; height:22px; animation: float-down 1.6s ease-in-out infinite}
     @keyframes float-down { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(4px) } }
+    /* For sections with large ornaments (e.g., about bus), place chevron below content */
+    section.with-ornament{padding-bottom:40px}
+    section.with-ornament .section-next{position:static; left:auto; bottom:auto; transform:none; display:block; width:36px; margin:14px auto 0}
 
     /* Cards */
     .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px}
@@ -128,8 +131,8 @@
     @keyframes shimmer { from{background-position:0% 50%} to{background-position:200% 50%} }
     @media (prefers-reduced-motion: reduce){ .reveal,.reveal.in{animation:none; opacity:1; transform:none} }
 
-    /* Anchor offset for sticky header */
-    .anchor{position:relative; top:-88px; visibility:hidden}
+    /* Anchor offset for sticky header (ensure titles appear at top) */
+    .anchor{position:relative; top:40px; visibility:hidden}
 
     /* Tiny badge */
     .pill{display:inline-block; padding:6px 10px; border-radius:10px; background:var(--bg-alt); color:#0f172a; border:1px solid var(--line); font-size:12px}
@@ -205,7 +208,7 @@
 
   <!-- About -->
   <span id="about" class="anchor"></span>
-  <section>
+  <section class="with-ornament">
     <div class="container">
     <div class="grid">
       <div class="card reveal">
